@@ -53,7 +53,7 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           railway variables set \
-            "LOGSTASH_HOST=${{ secrets.LOGSTASH_PRIVATE_DOMAIN }}:5044" \
+            "LOGSTASH_HOST=http://${{ secrets.LOGSTASH_PRIVATE_DOMAIN }}:5044" \
             --service filebeat \
             --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
 
