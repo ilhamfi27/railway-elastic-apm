@@ -4,10 +4,6 @@
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile"
   },
-  "deploy": {
-    "healthcheckPath": "/_cluster/health",
-    "healthcheckTimeout": 300
-  },
   "variables": {
     "discovery.type": "single-node",
     "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}",
