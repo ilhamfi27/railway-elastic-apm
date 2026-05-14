@@ -2,6 +2,9 @@ name: Deploy Railway Services
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   set-variables:
