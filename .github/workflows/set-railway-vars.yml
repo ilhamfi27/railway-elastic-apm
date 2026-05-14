@@ -1,0 +1,66 @@
+name: Set Railway Variables
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Set Elasticsearch variables
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables set \
+            "discovery.type=single-node" \
+            "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" \
+            "KIBANA_PASSWORD=${{ secrets.KIBANA_PASSWORD }}" \
+            "xpack.security.enabled=true" \
+            "xpack.security.http.ssl.enabled=false" \
+            "ES_JAVA_OPTS=-Xms2g -Xmx2g" \
+            --service elasticsearch \
+            --project-id ${{ secrets.RAILWAY_PROJECT_ID }}
+
+      - name: Set Kibana variables
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables set \
+            "ELASTICSEARCH_HOSTS=http://${{elasticsearch-es-apm.RAILWAY_PRIVATE_DOMAIN}}:9200" \
+            "ELASTICSEARCH_USERNAME=kibana_system" \
+            "ELASTICSEARCH_PASSWORD=${{ secrets.KIBANA_PASSWORD }}" \
+            --service kibana \
+            --project-id ${{ secrets.RAILWAY_PROJECT_ID }}
+
+      - name: Set Logstash variables
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables set \
+            "ELASTICSEARCH_HOSTS=http://${{elasticsearch-es-apm.RAILWAY_PRIVATE_DOMAIN}}:9200" \
+            "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" \
+            --service logstash \
+            --project-id ${{ secrets.RAILWAY_PROJECT_ID }}
+
+      - name: Set Filebeat variables
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables set \
+            "LOGSTASH_HOST=${{logstash-es-apm.RAILWAY_PRIVATE_DOMAIN}}:5044" \
+            --service filebeat \
+            --project-id ${{ secrets.RAILWAY_PROJECT_ID }}
+
+      - name: Set APM Server variables
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables set \
+            "ELASTICSEARCH_HOSTS=http://${{elasticsearch-es-apm.RAILWAY_PRIVATE_DOMAIN}}:9200" \
+            "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" \
+            "KIBANA_HOST=http://${{kibana-es-apm.RAILWAY_PRIVATE_DOMAIN}}:5601" \
+            --service apm-server \
+            --project-id ${{ secrets.RAILWAY_PROJECT_ID }}
