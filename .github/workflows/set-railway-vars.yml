@@ -13,21 +13,6 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Create services if not exists
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          SERVICES="elasticsearch kibana logstash filebeat apm-server"
-          EXISTING=$(railway service list --project ${{ secrets.RAILWAY_PROJECT_ID }} --json 2>/dev/null | jq -r '.[].name' 2>/dev/null || echo "")
-          for SERVICE in $SERVICES; do
-            if echo "$EXISTING" | grep -qx "$SERVICE"; then
-              echo "Service '$SERVICE' already exists, skipping."
-            else
-              echo "Creating service '$SERVICE'..."
-              railway service create "$SERVICE" --project ${{ secrets.RAILWAY_PROJECT_ID }}
-            fi
-          done
-
       - name: Set Elasticsearch variables
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
