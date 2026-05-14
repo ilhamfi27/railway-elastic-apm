@@ -25,7 +25,7 @@ jobs:
             "xpack.security.http.ssl.enabled=false" \
             "ES_JAVA_OPTS=-Xms2g -Xmx2g" \
             --service elasticsearch \
-            --project ${{ secrets.RAILWAY_PROJECT_ID }}
+            --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
 
       - name: Set Kibana variables
         env:
@@ -36,7 +36,7 @@ jobs:
             "ELASTICSEARCH_USERNAME=kibana_system" \
             "ELASTICSEARCH_PASSWORD=${{ secrets.KIBANA_PASSWORD }}" \
             --service kibana \
-            --project ${{ secrets.RAILWAY_PROJECT_ID }}
+            --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
 
       - name: Set Logstash variables
         env:
@@ -46,7 +46,7 @@ jobs:
             "ELASTICSEARCH_HOSTS=http://${{ secrets.ELASTICSEARCH_PRIVATE_DOMAIN }}:9200" \
             "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" \
             --service logstash \
-            --project ${{ secrets.RAILWAY_PROJECT_ID }}
+            --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
 
       - name: Set Filebeat variables
         env:
@@ -55,7 +55,7 @@ jobs:
           railway variables set \
             "LOGSTASH_HOST=${{ secrets.LOGSTASH_PRIVATE_DOMAIN }}:5044" \
             --service filebeat \
-            --project ${{ secrets.RAILWAY_PROJECT_ID }}
+            --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
 
       - name: Set APM Server variables
         env:
@@ -66,4 +66,4 @@ jobs:
             "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" \
             "KIBANA_HOST=http://${{ secrets.KIBANA_PRIVATE_DOMAIN }}:5601" \
             --service apm-server \
-            --project ${{ secrets.RAILWAY_PROJECT_ID }}
+            --project ${{ secrets.RAILWAY_PROJECT_ID }} --environment production
