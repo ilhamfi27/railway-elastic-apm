@@ -8,4 +8,4 @@ processors:
   - add_docker_metadata: ~
 
 output.logstash:
-  hosts: ["logstash:5044"]
+  hosts: ["${LOGSTASH_HOST}"]

@@ -3,5 +3,8 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile"
+  },
+  "variables": {
+    "LOGSTASH_HOST": "${{logstash-es-apm.RAILWAY_PRIVATE_DOMAIN}}:5044"
   }
 }

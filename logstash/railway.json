@@ -3,5 +3,9 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile"
+  },
+  "variables": {
+    "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}",
+    "ELASTICSEARCH_HOSTS": "http://${{elasticsearch-es-apm.RAILWAY_PRIVATE_DOMAIN}}:9200"
   }
 }
