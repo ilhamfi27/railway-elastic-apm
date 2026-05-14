@@ -1,0 +1,72 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "services": {
+    "elasticsearch": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "elasticsearch/Dockerfile"
+      },
+      "variables": {
+        "discovery.type": "single-node",
+        "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}",
+        "KIBANA_PASSWORD": "${{KIBANA_PASSWORD}}",
+        "xpack.security.enabled": "true",
+        "xpack.security.http.ssl.enabled": "false",
+        "ES_JAVA_OPTS": "-Xms2g -Xmx2g"
+      },
+      "networking": {
+        "servicePorts": [9200]
+      }
+    },
+    "kibana": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "kibana/Dockerfile"
+      },
+      "variables": {
+        "ELASTICSEARCH_HOSTS": "http://${{elasticsearch.RAILWAY_PRIVATE_DOMAIN}}:9200",
+        "ELASTICSEARCH_USERNAME": "kibana_system",
+        "ELASTICSEARCH_PASSWORD": "${{KIBANA_PASSWORD}}"
+      },
+      "networking": {
+        "servicePorts": [5601]
+      }
+    },
+    "logstash": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "logstash/Dockerfile"
+      },
+      "variables": {
+        "ELASTICSEARCH_HOSTS": "http://${{elasticsearch.RAILWAY_PRIVATE_DOMAIN}}:9200",
+        "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}"
+      },
+      "networking": {
+        "servicePorts": [5044, 5000]
+      }
+    },
+    "filebeat": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "filebeat/Dockerfile"
+      },
+      "variables": {
+        "LOGSTASH_HOST": "${{logstash.RAILWAY_PRIVATE_DOMAIN}}:5044"
+      }
+    },
+    "apm-server": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "apm-server/Dockerfile"
+      },
+      "variables": {
+        "ELASTICSEARCH_HOSTS": "http://${{elasticsearch.RAILWAY_PRIVATE_DOMAIN}}:9200",
+        "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}",
+        "KIBANA_HOST": "http://${{kibana.RAILWAY_PRIVATE_DOMAIN}}:5601"
+      },
+      "networking": {
+        "servicePorts": [8200]
+      }
+    }
+  }
+}
