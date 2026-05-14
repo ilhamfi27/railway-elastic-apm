@@ -64,10 +64,3 @@ jobs:
             "KIBANA_HOST=http://${{ secrets.KIBANA_PRIVATE_DOMAIN }}:5601" \
             --service apm-server \
             --project $PROJECT --environment $ENV
-
-      - name: Redeploy all services
-        run: |
-          for SERVICE in elasticsearch kibana logstash filebeat apm-server; do
-            echo "Redeploying $SERVICE..."
-            railway redeploy --service "$SERVICE" --project $PROJECT --environment $ENV --yes
-          done
