@@ -3,15 +3,5 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "Dockerfile"
-  },
-  "variables": {
-    "discovery.type": "single-node",
-    "ELASTIC_PASSWORD": "${{ELASTIC_PASSWORD}}",
-    "xpack.security.enabled": "true",
-    "xpack.security.http.ssl.enabled": "false",
-    "ES_JAVA_OPTS": "-Xms2g -Xmx4g"
-  },
-  "networking": {
-    "servicePorts": [9200]
   }
 }
