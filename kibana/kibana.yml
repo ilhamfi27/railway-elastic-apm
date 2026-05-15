@@ -2,3 +2,5 @@ server.name: kibana
 server.host: "0.0.0.0"
 
 elasticsearch.hosts: ["${ELASTICSEARCH_HOSTS}"]
+elasticsearch.username: "${ELASTICSEARCH_USERNAME}"
+elasticsearch.password: "${ELASTICSEARCH_PASSWORD}"
