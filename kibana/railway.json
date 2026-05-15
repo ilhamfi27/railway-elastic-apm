@@ -6,7 +6,7 @@
   },
   "variables": {
     "ELASTICSEARCH_HOSTS": "http://${{elasticsearch-es-apm.RAILWAY_PRIVATE_DOMAIN}}:9200",
-    "ELASTICSEARCH_USERNAME": "kibana_system",
+    "ELASTICSEARCH_USERNAME": "elastic",
     "ELASTICSEARCH_PASSWORD": "${{KIBANA_PASSWORD}}"
   }
 }
