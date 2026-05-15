@@ -28,7 +28,7 @@ jobs:
             "KIBANA_PASSWORD=${{ secrets.KIBANA_PASSWORD }}" \
             "xpack.security.enabled=true" \
             "xpack.security.http.ssl.enabled=false" \
-            "ES_JAVA_OPTS=-Xms2g -Xmx2g" \
+            "ES_JAVA_OPTS=-Xms2g -Xmx2g -Des.insecure.allow.root=true" \
             --service elasticsearch \
             --project $PROJECT --environment $ENV
 
