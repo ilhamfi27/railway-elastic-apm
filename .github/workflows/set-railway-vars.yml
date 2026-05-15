@@ -36,7 +36,7 @@ jobs:
         run: |
           railway variables set \
             "ELASTICSEARCH_HOSTS=http://${{ secrets.ELASTICSEARCH_PRIVATE_DOMAIN }}:9200" \
-            "ELASTICSEARCH_USERNAME=elastic" \
+            "ELASTICSEARCH_USERNAME=kibana_system" \
             "ELASTICSEARCH_PASSWORD=${{ secrets.KIBANA_PASSWORD }}" \
             --service kibana \
             --project $PROJECT --environment $ENV
