@@ -31,6 +31,7 @@ services:
       - "5601:5601"
     volumes:
       - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./volumes/kibana:/usr/share/kibana/data
     networks:
       - elk
 
@@ -76,6 +77,10 @@ services:
       -E output.elasticsearch.username=elastic
       -E output.elasticsearch.password=${ELASTIC_PASSWORD}
       -E setup.kibana.host=kibana:5601
+    environment:
+      ELASTIC_PASSWORD: "${ELASTIC_PASSWORD}"
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      KIBANA_HOST: "http://kibana:5601"
     volumes:
       - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml
     networks:
